@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import re
 
-d = 100000
+d = 1000000
 df1 = pd.read_csv("data/transactions.csv", delimiter=",", nrows=d)
 df2 = pd.read_csv("data/tr_mcc_codes.csv", delimiter=";", nrows=d)
 df3 = pd.read_csv("data/tr_types.csv", delimiter=";", nrows=d)
@@ -14,22 +14,17 @@ df1 = df1.merge( df2 )
 df1 = df1.merge( df3 )
 df1 = df1.merge( df4, how="left" )
 
-# print(df1.keys())
-# print( df1.mcc_code )
+fdf1 = df1[ df1.amount < 0 ]
+gender0 = fdf1[fdf1.gender == 0]
+gender1 = fdf1[fdf1.gender == 1]
+# print(gender0.mean())
+print("==========+")
+f = [ gender0.mean().amount, gender1.mean().amount]
+res = np.ptp( f )
+print(res)
 
-tr_type = df1.tr_type.astype( str )
-mcc     = df1.mcc_code.astype( str )
-new = tr_type + mcc
-df1.insert(2, "New", new)
-count = df1.tr_description.value_counts()
-count = count[10 < count]
+# df_combined.to_csv(combined_file_name)
 
-# print(count)
-# df1 = df1[ df1.tr_description.str.contains("POS", regex=True) ]
-df1 = df1[ df1["tr_description"].isin( count.index ) ]
-print(df1.keys())
 
-df1_minus = df1[ df1.amount < 0 ]
-df1_minus.New = df1_minus.New.astype(int)
-dis = df1_minus.New.std( )
-print( dis )
+
+# data_set = pd.read_csv("data/transactions.csv", delimiter=",", nrows=1000000)
