@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import re
 
-d = 100000
+d = 1000000
 df1 = pd.read_csv("data/transactions.csv", delimiter=",", nrows=d)
 df2 = pd.read_csv("data/tr_mcc_codes.csv", delimiter=";", nrows=d)
 df3 = pd.read_csv("data/tr_types.csv", delimiter=";", nrows=d)
@@ -32,4 +32,4 @@ print(df1.keys())
 df1_minus = df1[ df1.amount < 0 ]
 df1_minus.New = df1_minus.New.astype(int)
 dis = df1_minus.New.std( )
-print( dis )
+print(dis)
